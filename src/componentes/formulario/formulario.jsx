@@ -12,7 +12,7 @@ export default function Formulario() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json");
+            const response = await axios.get("https://sampa.pythonanywhere.com/Responsaveis/?format=json");
             const responsaveis = response.data;
 
             const matchingResponsavel = responsaveis.find((responsavel) => responsavel.email === email && responsavel.senha === password);

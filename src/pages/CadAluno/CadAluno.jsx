@@ -1,8 +1,7 @@
 import axios from "axios";
 import NavBar from "../../componentes/navbar/nav";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { data } from "autoprefixer";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 export default function CadAluno() {
@@ -20,9 +19,11 @@ export default function CadAluno() {
                 cpf: cpf
             }
             await axios.post("https://sampa.pythonanywhere.com/Alunos/", data)
+            alert("Cadastro concluido com sucesso!")
+            navigate("/")
         }
         catch(error) {
-            console.log("Ouve um erro de servidor -> "+error)
+            alert("Ouve um erro de servidor -> "+error)
         }
     }
     return (

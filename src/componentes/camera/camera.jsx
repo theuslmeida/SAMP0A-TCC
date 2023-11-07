@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Camera() {
   const webcamRef = React.useRef(null);
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Camera() {
           formData.append('email', localStorage.getItem("email_aluno"))
 
           try{
-            const response = await axios.post("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formData)
+            const response = await axios.post("http://127.0.0.1:8000/api_salvarimg/", formData)
             const resultado = response.data.deteccao_resultado
 
             if (resultado){
