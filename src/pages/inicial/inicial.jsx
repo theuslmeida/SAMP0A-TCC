@@ -17,7 +17,7 @@ export default function Iniciar() {
             <div className="w-9/12  flex justify-around flex-col  transition-all ease-in-out">
               <h1 className="text-5xl font-semibold text-red-600">SMPA</h1>
               <div>
-                <p className="w-[300px] text-[15px] 2xl:w-[600px] xl:text-[20px]">
+                <p className="w-[300px] text-[15px] 2xl:w-[600px] xl:text-[15px]">
                   O projeto de Detecção de EPI e Escaneamento para Segurança do Trabalhador
                   é uma iniciativa inovadora que utiliza tecnologias avançadas, como visão
                   computacional e aprendizado de máquina, para detectar e verificar o uso 

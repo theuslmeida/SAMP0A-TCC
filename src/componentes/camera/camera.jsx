@@ -35,7 +35,7 @@ export default function Camera() {
           formData.append('email', localStorage.getItem("email_aluno"))
 
           try{
-            const response = await axios.post("https://cleytondev1000.pythonanywhere.com/api_salvarimg/", formData)
+            const response = await axios.post("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formData)
             const resultado = response.data.deteccao_resultado
 
             if (resultado){
@@ -48,7 +48,7 @@ export default function Camera() {
               formNeg.append('cpf', localStorage.getItem("cpf_aluno"))
               formNeg.append('imagem', blob, 'imagem.png');
               console.log(formNeg)
-              await axios.post("https://cleytondev1000.pythonanywhere.com/Imagens_negativas/", formNeg)
+              await axios.post("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formNeg)
               navigate("/Negado")
             }
           }

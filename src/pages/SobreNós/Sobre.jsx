@@ -23,8 +23,9 @@ export default function Sobre() {
                     <h1 className="text-4xl">Quais benefícios o SMPA tem?</h1>
                     <div className="w-16 h-2 bg-black mx-auto my-4"></div>
                     <div className="flex flex-col lg:flex-row items-center justify-center">
-                        <p className="text-lg lg:w-3/5 lg:mr-10">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        <p className="text-lg lg:w-3/5 lg:mr-10 text-right">
+                        O sistema SMPA terá a praticidade em processos empresariais de fábrica, reforçando assim o uso dos EPI'S pelos os colaboradores substituindo o procedimento que os fiscais de fábrica fazem, na supervisão dos funcionários.
+
                         </p>
                         <img src="/Wpp2.jpeg" alt="" className="w-full lg:w-2/5" />
                     </div>
@@ -37,8 +38,8 @@ export default function Sobre() {
                     <div className="w-16 h-2 bg-black mx-auto my-4"></div>
                     <div className="flex flex-col lg:flex-row items-center justify-center">
                         <img src="/Wpp1.jpeg" alt="" className="w-full lg:w-2/5 mb-4 lg:mb-0" />
-                        <p className="text-lg lg:w-3/5 lg:ml-10">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        <p className="text-lg lg:w-3/5 lg:ml-10 text-left">
+                        A ideia surgiu através de pensarmos tanto na segurança do funcionário como no bem estar da empresa automatizando o processo que seria feito por uma pessoa, assim aumentando a praticidade e além disso trazendo uma garantia para a empresa com o armazenamento da detecção de que a pessoa antes de entrar na área de trabalho estava utilizando o EPI e se ela não estiver será avisado para seu supervisor, evitando assim que o funcionário tente entrar sem seu EPI.
                         </p>
                     </div>
                 </div>

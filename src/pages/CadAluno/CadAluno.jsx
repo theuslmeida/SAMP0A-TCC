@@ -19,7 +19,7 @@ export default function CadAluno() {
                 email: email, 
                 cpf: cpf
             }
-            await axios.post("https://cleytondev1000.pythonanywhere.com/Alunos/", data)
+            await axios.post("https://sampa.pythonanywhere.com/Alunos/", data)
         }
         catch(error) {
             console.log("Ouve um erro de servidor -> "+error)
