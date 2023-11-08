@@ -7,12 +7,20 @@ export default function Camera() {
   const webcamRef = React.useRef(null);
   const [countdown, setCountdown] = useState(10);
   const navigate = useNavigate();
+  const [preDetect, setpreDetect] = useState("")
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (countdown > 0) {
-        setCountdown(countdown - 1);
-      } else {
+        setCountdown(countdown - 1)
+      } 
+      else if (countdown == 8){
+        Pre_detect()
+      }
+      else if (countdown == 2){
+        Pre_detect()
+      }
+      else {
         clearInterval(timer);
         capture();
       }
@@ -20,6 +28,22 @@ export default function Camera() {
 
     return () => clearInterval(timer);
   }, [countdown]);
+
+  async function Pre_detect(){
+    const imageSrc = webcamRef.current.getScreenshot();
+    if (imageSrc) {
+      try {
+        const blob = await fetch(imageSrc).then(r => r.blob());
+        const Pre_formdata = new FormData();
+        Pre_formdata.append('imagem', blob, 'imagem.png');
+        const response = await axios.post("http://127.0.0.1:8000/pre_detectimg/", Pre_formdata)
+        setpreDetect(response.data.pre_deteccao_resultado)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
 
   async function capture() {
@@ -70,8 +94,7 @@ export default function Camera() {
 
   return (
     <>
-
-
+      <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">{preDetect}</h1>
       <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">Bem-Vindo ao
         <span className="text-red-600">Teste</span></h1>
       <h1 className="xl:text-[25px] text-[20px] mt-[10px] ml-[45%] text-red-600 w-[120px] items-center xl:text- xl:w-[220px]">INSTRUÇÕES</h1>

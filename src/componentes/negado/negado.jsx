@@ -13,17 +13,6 @@ export default function Neg() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-    
-    async function Pegar_dado(){
-        const response = await axios.get("http://127.0.0.1:8000/media/imagem_hOiCpt3.png");            
-        setDado(response.data)
-    }
-    Pegar_dado()
-    console.log(dado)
-    
-
-
   return (
     <>
     <NavBar></NavBar>
