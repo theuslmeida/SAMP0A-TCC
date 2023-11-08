@@ -6,26 +6,19 @@ import { useNavigate } from "react-router-dom";
 export default function Camera() {
   const webcamRef = React.useRef(null);
   const [countdown, setCountdown] = useState(10);
+  const [preDetect, setpreDetect] = useState("");
   const navigate = useNavigate();
-  const [preDetect, setpreDetect] = useState("")
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (countdown > 0) {
         setCountdown(countdown - 1)
       } 
-      else if (countdown == 8){
-        Pre_detect()
-      }
-      else if (countdown == 2){
-        Pre_detect()
-      }
       else {
         clearInterval(timer);
         capture();
       }
     }, 1000);
-
     return () => clearInterval(timer);
   }, [countdown]);
 
@@ -37,10 +30,14 @@ export default function Camera() {
         const Pre_formdata = new FormData();
         Pre_formdata.append('imagem', blob, 'imagem.png');
         const response = await axios.post("http://127.0.0.1:8000/pre_detectimg/", Pre_formdata)
+        console.log(response.data.pre_deteccao_resultado)
         setpreDetect(response.data.pre_deteccao_resultado)
       }
       catch (error) {
         console.log(error)
+      }
+      finally{
+        setTimeout(Pre_detect(), 10000)
       }
     }
   }
@@ -91,7 +88,7 @@ export default function Camera() {
       console.log("Webcam não detectada");
     }
   }
-
+  Pre_detect()
   return (
     <>
       <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">{preDetect}</h1>
