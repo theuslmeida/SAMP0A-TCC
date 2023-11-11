@@ -7,7 +7,10 @@ export default function Camera() {
   const webcamRef = React.useRef(null);
   const [countdown, setCountdown] = useState(10);
   const [preDetect, setpreDetect] = useState("");
+<<<<<<< HEAD
   const [cont, setCont] = useState(4)
+=======
+>>>>>>> 6a91f2a49260a149a6bf435d07d6d3036da67ae3
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +34,7 @@ export default function Camera() {
         const blob = await fetch(imageSrc).then(r => r.blob());
         const Pre_formdata = new FormData();
         Pre_formdata.append('imagem', blob, 'imagem.png');
+<<<<<<< HEAD
         Pre_formdata.append('email', localStorage.getItem("email_aluno"));
         const response = await axios.post("https://sampa.pythonanywhere.com/pre_detectimg/", Pre_formdata)
         setpreDetect(response.data.pre_deteccao_resultado)
@@ -50,6 +54,21 @@ export default function Camera() {
       }
     }
   }
+=======
+        const response = await axios.post("http://127.0.0.1:8000/pre_detectimg/", Pre_formdata)
+        console.log(response.data.pre_deteccao_resultado)
+        setpreDetect(response.data.pre_deteccao_resultado)
+      }
+      catch (error) {
+        console.log(error)
+      }
+      finally{
+        setTimeout(Pre_detect(), 10000)
+      }
+    }
+  }
+
+>>>>>>> 6a91f2a49260a149a6bf435d07d6d3036da67ae3
 
   async function Captura() {
     if (webcamRef.current) {
@@ -95,7 +114,7 @@ export default function Camera() {
       console.log("Webcam não detectada");
     }
   }
-
+  Pre_detect()
   return (
     <>
       <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">{preDetect}</h1>
