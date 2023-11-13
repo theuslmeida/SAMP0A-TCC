@@ -95,7 +95,6 @@ export default function Camera() {
 
   return (
     <>
-      <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">{preDetect}</h1>
       <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[40px]">Bem-Vindo ao
         <span className="text-red-600">Teste</span></h1>
       <h1 className="xl:text-[25px] text-[20px] mt-[10px] ml-[45%] text-red-600 w-[120px] items-center xl:text- xl:w-[220px]">INSTRUÇÕES</h1>
@@ -112,6 +111,7 @@ export default function Camera() {
           className="sm:w-[90%] sm:h-[20%] sm:mt-[25%] xl:mt-[5%] xl:w-[50%] xl:ml-[7%] sm:ml-[-10%]  border-slate-950 bg-[#aaa]"
         >
         </Webcam>
+        <h1 className="text-[30px] ml-[35%] xl:ml-[40%] xl:text-[30px]">{preDetect}</h1>
       </div>
     </>
   );
