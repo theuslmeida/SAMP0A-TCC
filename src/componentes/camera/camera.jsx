@@ -5,91 +5,51 @@ import { useNavigate } from "react-router-dom";
 
 export default function Camera() {
   const webcamRef = React.useRef(null);
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(30);
   const [preDetect, setpreDetect] = useState("");
-  const [cont, setCont] = useState(4)
+  const [cont2, setCont2] = useState(4)
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (countdown > 0) {
-        setCountdown(countdown - 1)
+        setCountdown(countdown - 1);
         Pre_detect();
       } 
       else {
         clearInterval(timer);
-        Captura();
       }
     }, 1000);
     return () => clearInterval(timer);
   }, [countdown]);
 
   async function Pre_detect(){
+    if(countdown === 1){
+      navigate("/negado")
+    }
+
     const imageSrc = webcamRef.current.getScreenshot();
     if (imageSrc) {
       try {
+        console.log("Enviando uma imagem!")
         const blob = await fetch(imageSrc).then(r => r.blob());
         const Pre_formdata = new FormData();
         Pre_formdata.append('imagem', blob, 'imagem.png');
         Pre_formdata.append('email', localStorage.getItem("email_aluno"));
-        const response = await axios.post("https://sampa.pythonanywhere.com/pre_detectimg/", Pre_formdata)
+        const response = await axios.post("http://sampa.pythonanywhere.com/enviar_img/", Pre_formdata)
         setpreDetect(response.data.pre_deteccao_resultado)
-        if(countdown === 1 && response.data.pre_deteccao_resultado === "Não estamos conseguindo te detectar"){
-          setCountdown(5)
-          setCont(cont - 1)
-        }
-        else if(cont === 0){
-          Captura();
+
+        if (response.data.pre_deteccao_resultado === "Te encontramos, tente ficar parado!"){
+          setCont2(cont2 - 1)
+          console.log(cont2)
+          if (cont2 == 0){
+            navigate("/aprovado")
+          }
         }
       }
       catch (error) {
         alert(error)
       }
-    }
-  }
-
-  async function Captura() {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
-
-      if (imageSrc) {
-        try {
-          const blob = await fetch(imageSrc).then(r => r.blob());
-          const formData = new FormData();
-          formData.append('imagem', blob, 'imagem.png');
-          formData.append('email', localStorage.getItem("email_aluno"))
-
-          try{
-            const response = await axios.post("https://sampa.pythonanywhere.com/api_salvarimg/", formData)
-            const resultado = response.data.deteccao_resultado
-
-            if (resultado){
-              navigate("/aprovado")
-            }
-            else {
-              const formNeg = new FormData();
-              formNeg.append('nome', localStorage.getItem("nome"))
-              formNeg.append('email', localStorage.getItem("email_aluno"));
-              formNeg.append('cpf', localStorage.getItem("cpf_aluno"))
-              formNeg.append('imagem', blob, 'imagem.png');
-              console.log(formNeg)
-              await axios.post("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formNeg)
-              navigate("/Negado")
-            }
-          }
-          catch (error){
-              alert("Sem respostas do servidor!! " +error)
-              window.location.reload()
-          }
-        } catch (error) {
-          console.error('Erro ao enviar imagem:', error);
-        }
-      } else {
-        alert("A camera não foi encontrada!")
-        window.location.reload()
-      }
-    } else {
-      console.log("Webcam não detectada");
     }
   }
 
