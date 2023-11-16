@@ -16,36 +16,57 @@ export default function Camera() {
         setCountdown(countdown - 1);
         Pre_detect();
       } else {
-        clearInterval(timer);
+        return
       }
     }, 1000);
     return () => clearInterval(timer);
   }, [countdown]);
 
   async function Pre_detect() {
-    if (countdown === 1) {
-      navigate("/negado");
-    }
-
     const imageSrc = webcamRef.current.getScreenshot();
     if (imageSrc) {
-      try {
-        console.log("Enviando uma imagem!");
+      if (countdown === 1) {
         const blob = await fetch(imageSrc).then((r) => r.blob());
         const Pre_formdata = new FormData();
         Pre_formdata.append("imagem", blob, "imagem.png");
         Pre_formdata.append("email", localStorage.getItem("email_aluno"));
         const response = await axios.post("https://sampa.pythonanywhere.com/enviar_img/", Pre_formdata);
-        setpreDetect(response.data.pre_deteccao_resultado);
-        
-        if (response.data.pre_deteccao_resultado === "Te encontramos, tente ficar parado!") {
-          setCont2(cont2 - 1);
-          console.log(cont2)
-          if (cont2 == 0) {
-            navigate("/aprovado");
-          }
+        if (response.data.deteccao_resultado === true) {
+          navigate("/aprovado");  
+          return
         }
-      } catch (error) {
+        else{
+          const formNeg = new FormData();
+          formNeg.append('nome', localStorage.getItem("nome"))
+          formNeg.append('email', localStorage.getItem("email_aluno"));
+          formNeg.append('cpf', localStorage.getItem("cpf_aluno"))
+          formNeg.append('imagem', blob, 'imagem.png');
+          await axios.post("https://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formNeg)
+          navigate("/negado");  
+          return
+        }
+      }
+
+      try {
+        const blob = await fetch(imageSrc).then((r) => r.blob());
+        const Pre_formdata = new FormData();
+        Pre_formdata.append("imagem", blob, "imagem.png");
+        Pre_formdata.append("email", localStorage.getItem("email_aluno"));
+        const response = await axios.post("https://sampa.pythonanywhere.com/enviar_img/", Pre_formdata);
+
+        if(response){
+          if (response.data.deteccao_resultado === true) {
+            setCont2(cont2 - 1);
+            console.log(cont2)
+            
+            if (cont2 === 0) {
+              navigate("/aprovado");
+            }
+          }
+          setpreDetect(response.data.pre_deteccao_resultado);
+        }
+      } 
+      catch (error) {
         alert(error);
       }
     }
