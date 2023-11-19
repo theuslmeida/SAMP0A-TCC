@@ -15,13 +15,42 @@ export default function Camera() {
       if (countdown > 0) {
         setCountdown(countdown - 1);
         Pre_detect();
-      } else {
+      } 
+      if (countdown == 1){
+        Camera();
+      }
+      else {
         return
       }
     }, 1000);
     return () => clearInterval(timer);
   }, [countdown]);
 
+
+  async function Camera() {
+    const imageSrc = webcamRef.current.getScreenshot();
+    if (imageSrc){
+      const blob = await fetch(imageSrc).then((r) => r.blob());
+      const Pre_formdata = new FormData();
+      Pre_formdata.append("imagem", blob, "imagem.png");
+      Pre_formdata.append("email", localStorage.getItem("email_aluno"));
+      const response = await axios.post("http://sampa.pythonanywhere.com/enviar_img/", Pre_formdata);
+      if (response.data.return == true){
+        navigate("/aprovado");  
+        return
+      }
+      else{
+        const formNeg = new FormData();
+        formNeg.append('nome', localStorage.getItem("nome"))
+        formNeg.append('email', localStorage.getItem("email_aluno"));
+        formNeg.append('cpf', localStorage.getItem("cpf_aluno"));
+        formNeg.append('imagem', blob, 'imagem.png');
+        await axios.post("http://sampa.pythonanywhere.com/Imagens_negativas/?format=json", formNeg)
+        navigate("/negado");
+        return
+      }
+    }
+  }
   async function Pre_detect() {
     const imageSrc = webcamRef.current.getScreenshot();
     if (imageSrc) {
@@ -68,6 +97,23 @@ export default function Camera() {
       } 
       catch (error) {
         alert(error);
+      }
+    }
+  }
+
+  async function Pre_detect() {
+    const imageSrc = webcamRef.current.getScreenshot();
+    if (imageSrc){
+      const Pre_formdata = new FormData();
+      const blob = await fetch(imageSrc).then((r) => r.blob());
+      Pre_formdata.append("imagem", blob, "imagem.png");
+      Pre_formdata.append("email", localStorage.getItem("email_aluno"));
+      const response = await axios.post("http://sampa.pythonanywhere.com/enviar_img/", Pre_formdata);
+
+      setpreDetect(response.data.response);
+      if(response.data.return == true){
+        navigate("/aprovado")
+        return
       }
     }
   }
